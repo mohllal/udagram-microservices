@@ -84,3 +84,15 @@ kubectl port-forward <frontend-pod> 8100:80
 ## Resources
 
 - [Deploying a Kubernetes Cluster with Amazon EKS](https://logz.io/blog/amazon-eks-cluster/).
+
+## Technologies
+
+- [Amazon Relational Database Service (RDS)](https://aws.amazon.com/rds/)
+- [Amazon Simple Cloud Storage Service (S3)](https://aws.amazon.com/s3/)
+- [Amazon Elastic Kubernetes Service (eks)](https://aws.amazon.com/eks/)
+- [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/)
+- [Amamzon CloudFormation](https://aws.amazon.com/cloudformation/)
+- [Docker](https://www.docker.com/)
+- [Kuberentes (k8s)](https://kubernetes.io/)
+- [Travis CI](https://travis-ci.org/)
+- [Node.js](https://nodejs.org/)
