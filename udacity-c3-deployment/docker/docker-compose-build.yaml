@@ -18,5 +18,7 @@ services:
     image: mohllal/udacity-image-filter
   frontend:
     build:
-      context: ../../udacity-c3-frontend  
+      context: ../../udacity-c3-frontend
+      args:
+        - BUILD_ENV=production
     image: mohllal/udacity-frontend
