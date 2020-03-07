@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/mohllal/udagram-microservices.svg?branch=master)](https://travis-ci.com/mohllal/udagram-microservices)
 
-- Udagram is a simple cloud application developed alongside the [Udacity Cloud Engineering Nanodegree](https://www.udacity.com/course/cloud-developer-nanodegree--nd9990). It allows users to register and log into a web client, post photos to the feed, and process photos using an image filtering microservice.
+Udagram is a simple cloud application developed alongside the [Udacity Cloud Engineering Nanodegree](https://www.udacity.com/course/cloud-developer-nanodegree--nd9990). It allows users to register and log into a web client, post photos to the feed, and process photos using an image filtering microservice.
 
 The project is split into four services:
 
@@ -45,7 +45,7 @@ docker-compose -f docker-compose up -d
 
 - Go to the browser and run [http://localhost:8100/](http://localhost:8100/) to see my Udagram application up and running with two functionalities: feed and user service. ***Feed service*** will allow the user to upload images and ***User service*** will allow a user to log-in or log-out from the system.
 
--If you wish to stop the containers gracefully, use the below command:
+- If you wish to stop the containers gracefully, use the below command:
 
 ```shell
 docker-compose stop
@@ -73,3 +73,14 @@ kubectl port-forward <frontend-pod> 8100:80
 ```
 
 - Go to the browser and run [http://localhost:8100/](http://localhost:8100/) to see my Udagram application up and running.
+
+## Links
+
+- [REST API server](http://a4328ed99607011eaaa110ae3011d93e-707550298.us-east-1.elb.amazonaws.com:8080/api/v0).
+- [Ionic client](http://a438417d2607011eaaa110ae3011d93e-1338661806.us-east-1.elb.amazonaws.com:8100).
+
+***Note***: You can find screenshots for the deployment [here](./screenshots/).
+
+## Resources
+
+- [Deploying a Kubernetes Cluster with Amazon EKS](https://logz.io/blog/amazon-eks-cluster/).
