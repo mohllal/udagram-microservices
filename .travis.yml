@@ -39,7 +39,7 @@ jobs:
   include:
     - stage: build
       script:
-      - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel
+      - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.prod.yaml build --parallel
       - docker push $DOCKER_USERNAME/udacity-restapi-feed
       - docker push $DOCKER_USERNAME/udacity-restapi-user
       - docker push $DOCKER_USERNAME/udacity-image-filter
