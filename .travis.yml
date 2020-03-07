@@ -4,27 +4,39 @@ services: docker
 
 stages:
   - build
-  - push
+  - test
   - name: deploy
     if: branch = master
 
 env:
-  - DOCKER_COMPOSE_VERSION=1.23.2
+  global:
+    - DOCKER_COMPOSE_VERSION=1.23.2
+    - CLUSTER_NAME=udagram-cluster
 
 before_install:
-  - docker -v && docker-compose -v
+  - docker -v && docker-compose -v 
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - echo 'docker-compose installed and configured'
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x ./kubectl
   - sudo mv ./kubectl /usr/local/bin/kubectl
+  - echo 'kubectl installed and configured'
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo 'dockerhub credentials configured'
+  - curl https://s3.amazonaws.com/aws-cli/awscli-bundle.zip -o awscli-bundle.zip
+  - unzip awscli-bundle.zip
+  - ./awscli-bundle/install -b ~/bin/aws
+  - export PATH=~/bin:$PATH
+  - chmod +x ./scripts/aws_config.sh && ./scripts/aws_config.sh
+  - chmod +x ./scripts/aws_credentials.sh && ./scripts/aws_credentials.sh
+  - echo 'aws-cli installed and configured'
 
 jobs:
   include:
-    - stage: build images
+    - stage: build
       script:
       - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.yaml build --parallel
       - docker push $DOCKER_USERNAME/udacity-restapi-feed
@@ -32,3 +44,9 @@ jobs:
       - docker push $DOCKER_USERNAME/udacity-image-filter
       - docker push $DOCKER_USERNAME/udacity-frontend
       - docker push $DOCKER_USERNAME/reverseproxy
+    - stage: test
+      script:
+      - echo 'run unit tests ..'
+    - stage: deploy
+      script:
+      - aws eks --region ${AWS_REGION} describe-cluster --name ${CLUSTER_NAME} --query cluster.status
