@@ -13,7 +13,7 @@ RUN npm ci
 COPY . .
 RUN if [ "$BUILD_ENV" = "development" ]; \
 	then ionic build;  \
-	else ionic build --prod --verbose; \
+	else ionic build --prod; \
 	fi
 
 ## Run 
