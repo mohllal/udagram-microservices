@@ -12,7 +12,6 @@ env:
   global:
     - DOCKER_COMPOSE_VERSION=1.23.2
     - CLUSTER_NAME=udagram-cluster
-    - DEPLOYMENT_FOLDER=./udacity-c3-deployment/k8s/
 
 before_install:
   - docker -v && docker-compose -v 
@@ -40,11 +39,7 @@ jobs:
     - stage: build
       script:
       - docker-compose -f udacity-c3-deployment/docker/docker-compose-build.prod.yaml build --parallel
-      - docker push $DOCKER_USERNAME/udacity-restapi-feed
-      - docker push $DOCKER_USERNAME/udacity-restapi-user
-      - docker push $DOCKER_USERNAME/udacity-image-filter
-      - docker push $DOCKER_USERNAME/udacity-frontend
-      - docker push $DOCKER_USERNAME/reverseproxy
+      - chmod +x ./scripts/push_images.sh && ./scripts/push_images.sh
     - stage: test
       script:
       - echo 'run unit tests ..'
@@ -52,17 +47,4 @@ jobs:
       script:
       - aws eks --region ${AWS_REGION} describe-cluster --name ${CLUSTER_NAME} --query cluster.status
       - aws eks --region ${AWS_REGION} update-kubeconfig --name ${CLUSTER_NAME}
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/aws-secret.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/env-configmap.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/env-secret.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/image-filter/backend-image-filter-deployment.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/restapi-feed/backend-feed-deployment.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/restapi-user/backend-user-deployment.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/reverseproxy/reverseproxy-deployment.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/frontend/frontend-deployment.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/image-filter/backend-image-filter-service.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/restapi-feed/backend-feed-service.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/restapi-user/backend-user-service.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/reverseproxy/reverseproxy-service.yaml
-      - kubectl apply -f ${DEPLOYMENT_FOLDER}/frontend/frontend-service.yaml
-      
+      - chmod +x ./scripts/deploy_k8s.sh && ./scripts/deploy_k8s.sh
