@@ -93,6 +93,6 @@ kubectl port-forward <frontend-pod> 8100:80
 - [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/)
 - [Amamzon CloudFormation](https://aws.amazon.com/cloudformation/)
 - [Docker](https://www.docker.com/)
-- [Kuberentes (k8s)](https://kubernetes.io/)
+- [Kubernetes (k8s)](https://kubernetes.io/)
 - [Travis CI](https://travis-ci.org/)
 - [Node.js](https://nodejs.org/)
